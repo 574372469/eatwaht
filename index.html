@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:wb="http://open.weibo.com/wb">
+
+<head>
+    <meta charset="UTF-8">
+    <title>中午吃什么</title>
+    <meta name="keywords" content="中午吃什么" />
+    <meta name="description" content="中午吃什么" />
+    <link rel="stylesheet" href="default.css">
+    <script src="https://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <h1>
+            中午吃什么，吃什么？
+            <br>
+            <br>
+            <b style="color:#FF9733" id="what"></b>
+        </h1>
+        <input type="button" value="开始" id="start" />
+        <input type="button" value="开始" id="stop" style="display: none;">
+    </div>
+
+    <textarea rows="9" cols="53" id="list" style="display:none">麻辣烫 麻辣香锅 饺子 米线 炒饭 黄焖鸡 麦当劳 肯德基 螺蛳粉 炸鸡 寿司 粥 酸菜鱼 馄饨 酸辣粉 烧烤 凉皮 火锅 水饺 披萨 冒菜 拉面 汉堡 煎饼果子 煲仔饭 重庆小面 炸酱面 KFC 包子 黄焖鸡米饭 鸡公煲 烤冷面 兰州拉面 沙县 肠粉 西北风 泡面 小碗菜 面包 汉堡王 盖浇饭 面 米饭 沙县小吃 咖喱饭 炒面 烤肉拌饭 华莱士 石锅拌饭 猪脚饭 烩面 热干面 刀削面 油泼面 土豆粉 螺狮粉 凉皮儿 肉夹馍 羊肉汤 卤肉饭 烤肉饭 驴肉火烧 川菜 烤串 烤鸭 蟹黄包 生煎 炒年糕 KFC 麦当劳</textarea>
+
+    <div id="weibo">
+        <wb:follow-button uid="3041970461" type="gray_1" width="67" height="24"></wb:follow-button>
+        <wb:share-button addition="full" type="button" ralateUid="3041970461" default_text="中午吃什么？"></wb:share-button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script>
+        $(function() {
+            var run = 0,
+                heading = $("h1"),
+                timer;
+
+            $("#start").click(function() {
+                var list = $("#list").val().replace(/ +/g, " ").replace(/^ | $/g, "").split(" ");
+                if (!run) {
+                    heading.html(heading.html().replace("吃这个！", "吃什么？"));
+                    $(this).val("停止");
+                    timer = setInterval(function() {
+                        var r = Math.ceil(Math.random() * list.length),
+                            food = list[r - 1];
+                        $("#what").html(food);
+                        var rTop = Math.ceil(Math.random() * $(document).height()),
+                            rLeft = Math.ceil(Math.random() * ($(document).width() - 50)),
+                            rSize = Math.ceil(Math.random() * (37 - 14) + 14);
+                        $("<span class='temp'></span>").html(food).hide().css({
+                            "top": rTop,
+                            "left": rLeft,
+                            "color": "rgba(0,0,0,." + Math.random() + ")",
+                            "fontSize": rSize + "px"
+                        }).appendTo("body").fadeIn("slow", function() {
+                            $(this).fadeOut("slow", function() {
+                                $(this).remove();
+                            });
+                        });
+                    }, 50);
+                    run = 1;
+                } else {
+                    heading.html(heading.html().replace("吃什么？", "吃这个！"));
+                    $(this).val("不行，换一个");
+                    clearInterval(timer);
+                    run = 0;
+                };
+            });
+
+            document.onkeydown = function enter(e) {
+                var e = e || event;
+                if (e.keyCode == 13) $("#start").trigger("click");
+            };
+        });
+    </script>
+    <script>
+        $i = 0;
+        $('#start').click(function() {
+            $i++;
+            if ($i >= 6) {
+                $('#start').hide();
+                $('#stop').show();
+            }
+        })
+        $('#stop').click(function() {
+            alert('这么作？今天别吃了！')
+            $(this).hide();
+        })
+    </script>
+</body>
+
+</html>
