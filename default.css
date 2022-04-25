@@ -98,5 +98,9 @@ body {
 #weibo {
     position: absolute;
     bottom: 15px;
-    right: 15px;
+    left: 15px;
+    display: flex;
+    flex-direction:  column;
+    justify-content:  flex-end  ;
+    align-items:  flex-start;
 }
